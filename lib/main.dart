@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_livraison_restoration/inscription.dart';
-import 'package:flutter_livraison_restoration/test.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_livraison_restoration/userInformation.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.red,
       ),
-      home:Connection(),
+      home:Accueil(),
     );
   }
 }

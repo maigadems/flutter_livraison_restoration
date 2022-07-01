@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_livraison_restoration/connection.dart';
 import 'package:flutter_livraison_restoration/suite_inscription.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'users.dart';
@@ -26,15 +27,34 @@ class InscriptionState extends State<Inscription>{
 
     // TODO: implement build
    return Scaffold(
+
      body: SingleChildScrollView(
        child:  Container(
          color: Colors.white,
-         margin: EdgeInsets.only(bottom: 10, right: 10, left: 10),
+         margin: EdgeInsets.only(bottom: 5, right: 10, left: 10),
          width: size.width,
          height: size.height,
          child: Column(
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
+             Container(
+               alignment: Alignment.topLeft,
+               child:IconButton(onPressed: (){
+                 Navigator.of(context).push(
+                     MaterialPageRoute(builder: (BuildContext ctx) {
+                       return Connection();
+                     }
+                     )
+                 );
+               },
+                 icon: Icon(Icons.arrow_back_ios,
+                   color: Colors.red[200],
+                   size: 30,
+                 ),
+                 splashColor: Colors.pink,
+                 splashRadius: 20,
+               ),
+             ),
              Container(
                height: size.height / 3,
                width: size.width,
