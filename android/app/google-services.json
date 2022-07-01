@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "966901388204",
+    "project_id": "sitelivraison-7eba8",
+    "storage_bucket": "sitelivraison-7eba8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:966901388204:android:101ba6bb4f8496ce816009",
+        "android_client_info": {
+          "package_name": "com.example.flutter_livraison_restoration"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "966901388204-rrhimt42v757htccvricg1u8gs06t11u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsV-UUF6k4--Rdxw3GBA7RnqB-oWaC_UQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "966901388204-rrhimt42v757htccvricg1u8gs06t11u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
