@@ -5,9 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'users.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
-
 class SuiteInscription extends StatefulWidget {
 
   final String email;
@@ -147,6 +144,16 @@ class SuiteInscriptionState extends State<SuiteInscription> {
                         ),
                       ),
                     ),
+
+                    /* onPressed:() {
+
+                       // Creation de l'utilisateur
+
+                       Navigator.of(context).push(
+                           MaterialPageRoute(builder: (BuildContext ctx) {
+                             return SuiteInscription(email: controllerEmail.text, password: controllerPassword.text);
+                           }));
+                     }, */
                     Spacer(),
                     FlatButton(
                       onPressed:() {

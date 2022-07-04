@@ -5,6 +5,7 @@ class Users {
   String firstName;
   String lastName;
   String numero;
+  String? urlProfil;
 
   Users({
     this.id = '',
@@ -12,7 +13,8 @@ class Users {
     required this.password,
     required this.firstName,
     required this.lastName,
-    required this.numero
+    required this.numero,
+    this.urlProfil
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,5 +24,6 @@ class Users {
     'firstName' : firstName,
     'lastName' : lastName,
     'numero' : numero,
+    'Url Profil' :urlProfil,
   };
 }

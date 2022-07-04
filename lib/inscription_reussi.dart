@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
 import 'package:flutter_livraison_restoration/connection.dart';
 import 'package:flutter_livraison_restoration/inscription.dart';
-import 'package:flutter_livraison_restoration/inscription_reussi.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
-class Accueil extends StatelessWidget{
+class InscriptionReussi extends StatelessWidget{
+  final String nom;
+  final String prenom;
+
+  InscriptionReussi({Key? key, required this.nom, required this.prenom}) :super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -14,17 +18,11 @@ class Accueil extends StatelessWidget{
     // TODO: implement build
     return Scaffold(
       body: Container(
+        color: Colors.white,
         padding: EdgeInsets.all(20),
         height: size.height,
         width: size.width,
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin:Alignment.topCenter,
-            colors: [Color.fromRGBO(255, 6, 6, 1), Colors.red, Colors.grey],
-            end: Alignment.bottomCenter,
-          ),
-        ),
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -34,30 +32,31 @@ class Accueil extends StatelessWidget{
               Container(
                 color: Colors.transparent,
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CircleAvatar(
+                      backgroundColor:Color.fromRGBO(252, 14, 14, 1),
                       radius: 100,
-                      backgroundImage: NetworkImage("https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600"),
+                      child: Icon(Icons.check_rounded , color: Colors.white, size: size.width/4,),
                     ),
                     Divider(color: Colors.transparent),
                     Text.rich(
                       TextSpan(
-                        text: 'BalxawFood\n',
-                        style: GoogleFonts.viga(
+                        text: 'Congrats !\n$prenom  $nom\n',
+                        style: GoogleFonts.vollkorn(
                             textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
+                              color: Colors.green[300],
+                              fontSize: 30,
                               fontWeight: FontWeight.bold,
                             )
                         ),
                         children: [
                           TextSpan(
-                            text:'Livraison a domicile',
+                            text:'Inscription Reussi',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: 30,
                               fontWeight: FontWeight.w600,
+                              color:Color.fromRGBO(252, 14, 14, 1),
+
                             ),
                           ),
                         ],
@@ -74,12 +73,12 @@ class Accueil extends StatelessWidget{
                         return Connection();
                       }));
                 },
-                color: Colors.white,
+                color: Color.fromRGBO(252, 14, 14, 1),
                 child:Padding(
                   padding: EdgeInsets.only(top: 18,bottom: 18),
-                  child: Text("Continuer",
+                  child: Text("S'authentifier",
                     style: TextStyle(
-                        color: Color.fromRGBO(255, 6, 6, 1),
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18
                     ),
