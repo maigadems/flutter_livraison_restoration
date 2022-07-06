@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
+import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
 
 Future<void> main() async {
 
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.ode Zen
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       debugShowCheckedModeBanner:  false,
       title: 'Flutter Demo',
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.red,
       ),
-      home:Accueil(),
+      home:AffichageRestaurant(),
     );
   }
 }
