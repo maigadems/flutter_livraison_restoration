@@ -37,8 +37,8 @@ class ConnectionState extends State<Connection>{
     var size = MediaQuery.of(context).size;
 
     // TODO: implement build
-    return loading ? Loading()
-      :Scaffold(
+    return
+      Scaffold(
       body: SingleChildScrollView(
         child:  Container(
           color: Colors.white,

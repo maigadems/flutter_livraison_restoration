@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
 
 Future<void> main() async {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
 
         primarySwatch: Colors.red,
       ),
-      home:Accueil(),
+      home:AffichageRestaurant(),
     );
   }
 }

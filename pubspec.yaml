@@ -41,4 +41,11 @@ flutter:
 
 
   uses-material-design: true
+  assets:
+    - images/asian.jfif
+    - images/asianfood.jfif
+    - images/cheenese.jfif
+    - images/français.jfif
+    - images/maiga.jfif
+    - images/vegan.jfif
 
