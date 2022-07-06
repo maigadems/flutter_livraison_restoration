@@ -142,16 +142,8 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                     textAlign: TextAlign.center,
                   ),
                   Column(children: Restaurant.map(buildRestaurant).toList(),),
-                  
-                  Padding(padding: EdgeInsets.all(15)),
-                  Row(
 
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Icon(Icons.home_filled,color: Color.fromRGBO(252, 14, 14, 1)),
-                      Icon(Icons.shopping_cart_outlined),
-                      Icon(Icons.output),
-                    ],)
+                  Padding(padding: EdgeInsets.all(15)),
                 ],
               )
             ,
@@ -162,6 +154,19 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
         }
         ,
       ),
+        floatingActionButton: Container(
+          margin: EdgeInsets.only(left: 35),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(color: Colors.white),
+          child:  Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Icon(Icons.home_filled,color: Color.fromRGBO(252, 14, 14, 1)),
+            Icon(Icons.shopping_cart_outlined),
+            Icon(Icons.output),
+          ],),),
+
 
         /*
         Column(children: [
@@ -200,6 +205,7 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
           Icon(Icons.output),
         ],)
       ],),*/
+
     );
   }
 
