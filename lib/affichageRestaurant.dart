@@ -1,254 +1,335 @@
+import 'dart:core';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_livraison_restoration/connection.dart';
+import 'package:flutter_livraison_restoration/affichageCategorie.dart';
+import 'package:flutter_livraison_restoration/affichageMenu.dart';
+import 'package:flutter_livraison_restoration/menurestaurant.dart';
 
 class AffichageRestaurant extends StatefulWidget{
+
   @override
   AffichageRestaurantState createState() => AffichageRestaurantState();
 
 }
 
 class AffichageRestaurantState extends State <AffichageRestaurant> {
-  TextEditingController search_controller = TextEditingController();
+
+  List<Restaurant> nosRestaurants = [
+    Restaurant(
+        id: "2",
+        nom: "Restau1",
+        tel: "772715485",
+        adresse: "peulgeu",
+        categorie: "dibi",
+        urlImage:
+        "https://cdn.pixabay.com/photo/2018/07/14/15/27/cafe-3537801__340.jpg"),
+    Restaurant(
+        id: "2",
+        nom: "Restau2",
+        tel: "782548962",
+        adresse: "niarry talli",
+        categorie: "dibi",
+        urlImage:
+        "https://cdn.pixabay.com/photo/2016/11/18/22/21/restaurant-1837150__340.jpg")
+  ];
+
+  List<String> mots = ["mots0", "mots1"];
+
+  /*List<Widget> vueRestaurant() {
+    List<Widget> vues = [];
+
+    nosRestaurants.forEach((element) {
+      final Widget = Container(
+
+        child:
+
+      Card(
+        margin: EdgeInsets.only(left: 15,right: 15,top: 10),
+
+        child:Container(
+        height: 726/10,
+        padding: EdgeInsets.all(10),
+        //decoration: ,
+        child:
+        Row(
+
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              height: 726/11,
+              width: 360/7,
+              padding: EdgeInsets.all(0),
+              margin: EdgeInsets.only(right: 10),
+              child: Image.network(element.urlImage,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Column(
+              children: [
+              Text(
+                element.nom,
+                style: TextStyle(
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(252, 14, 14, 1),
+                ),
+              ),
+              Padding(padding: EdgeInsets.all(0)),
+              Row(children: [
+
+                Text(element.distance.toString()+" min",)
+              ],)
+
+            ],),
+            Spacer(),
+            Icon(Icons.menu)
+          ],
+        ),
+      )
+
+        ,),);
+      vues.add(Widget);
+    });
+    return vues;
+  }*/
+
+
+
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    // TODO: implement build
+    Size size = MediaQuery.of(context).size;
+    print('hauteur ${size.height}');
+    print('largeur ${size.width}');
     return Scaffold(
-      /*appBar: AppBar(
-        title: Text(
-          'Salut'
+
+      body:
+
+        StreamBuilder<List<Restaurant>>(
+        stream: readRestaurant(),
+        builder: (context,snapshot){
+          if(snapshot.hasError){
+            return Text('somting wrong ${snapshot.error}');
+          }else if(snapshot.hasData){
+            final Restaurant = snapshot.data!;
+
+            return Container(child :
+              ListView(
+                children: [
+                  //Padding(padding: EdgeInsets.all(10)),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    child :
+                    Row(children: [
+                      Container(
+                        height: 30,
+                        width: 30,
+                        /*decoration: BoxDecoration(
+                            color: Color.fromRGBO(252, 14, 14, 0.1),
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),*/
+                        //color: Color.fromRGBO(252, 14, 14, 0.1),
+                        child: /*Icon(Icons.arrow_back_ios_new,color:Color.fromRGBO(252, 14, 14, 1))*/
+                        IconButton(onPressed: (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (BuildContext ctx) {
+                                return AffichageCategorie();
+                              }
+                              )
+                          );
+                        },
+                          icon: Icon(Icons.arrow_back_ios_new,
+                            color: Color.fromRGBO(252,14,14,1),
+                            size: 30,
+
+                          ),
+                          //splashColor: Colors.pink,
+                          //splashRadius: 20,
+
+                        ),
+
+                      )
+                    ],),),
+                  Text("Nos restaurants",
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromRGBO(252, 14, 14, 1),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Column(children: Restaurant.map(buildRestaurant).toList(),),
+
+                  Padding(padding: EdgeInsets.all(15)),
+                ],
+              )
+            ,
+            )
+
+              ;
+          } else { return Center(child: CircularProgressIndicator(),);}
+        }
+        ,
+      ),
+        floatingActionButton: Container(
+          margin: EdgeInsets.only(left: 35),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(color: Colors.white),
+          child:  Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Icon(Icons.home_filled,color: Color.fromRGBO(252, 14, 14, 1)),
+            Icon(Icons.shopping_cart_outlined),
+            Icon(Icons.output),
+          ],),),
+
+
+        /*
+        Column(children: [
+        Padding(padding: EdgeInsets.all(20)),
+        Container(
+          margin: EdgeInsets.all(20),
+          child :
+        Row(children: [
+          Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+                color: Color.fromRGBO(252, 14, 14, 0.1),
+                borderRadius: BorderRadius.all(Radius.circular(10))
+            ),
+            //color: Color.fromRGBO(252, 14, 14, 0.1),
+            child: Icon(Icons.arrow_back_ios_new,color:Color.fromRGBO(252, 14, 14, 1)),
+
+          )
+        ],),),
+        Text("Nos restaurants",
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w500,
+            color: Color.fromRGBO(252, 14, 14, 1),
+          ),
         ),
-      ),*/
-      body:Container(
-        //padding: EdgeInsets.only(top: 20),
-        //margin: EdgeInsets.only(left: 18,right: 18, bottom: 18),
-         child: GridView.count(crossAxisCount: 2,
-             padding: EdgeInsets.only(top: 10),
-             children: <Widget>[
-               Container(
-                 alignment: Alignment.topLeft,
-                   child: Column(
-                     //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                     children: [
-                       Padding(padding: EdgeInsets.only(top: 20)),
-                       TextFormField(
-                             decoration: InputDecoration(
-                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))
-                             ),
-                       ),
-                       Padding(padding: EdgeInsets.only(top: 25)),
+        Center(child: SingleChildScrollView(child :Column(children: vueRestaurant(size),),),),
+        Padding(padding: EdgeInsets.all(15)),
+        Row(
 
-                       Text(" Veillez  Sélectionner \n votre type de \n restaurant",
-                         style: TextStyle(
-                           fontSize: 20,
-                           color: Color.fromRGBO(252, 14, 14, 1),
-                         ),
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+          Icon(Icons.home_filled,color: Color.fromRGBO(252, 14, 14, 1)),
+          Icon(Icons.shopping_cart_outlined),
+          Icon(Icons.output),
+        ],)
+      ],),*/
 
-
-                       ),
-                     ],
-                   ),
-
-
-               ),
-
-         
-
-               Padding(padding: EdgeInsets.only(top: 5)),
-               Card(
-                 color: Colors.red[100],
-                 shape: RoundedRectangleBorder(
-                   borderRadius: BorderRadius.circular(30)
-                 ),
-                 margin: EdgeInsets.all(8.0),
-                 child: InkWell(
-                   onTap: () {},
-                   child: Center(
-                     child: Column(
-                       mainAxisSize: MainAxisSize.min,
-                       children: <Widget> [
-                         Padding(padding: EdgeInsets.only(top: 15)),
-                         Image(image: AssetImage("images/cheenese.jfif"),width:130,),
-                         Text("chinois",style: new TextStyle(fontSize: 17),)
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               Card(
-                 color: Colors.red[100],
-                 shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(30)
-                 ),
-                 margin: EdgeInsets.all(8.0),
-                 child: InkWell(
-                   onTap: () {},
-                   child: Center(
-                     child: Column(
-                       mainAxisSize: MainAxisSize.min,
-                       children: <Widget> [
-                         Padding(padding: EdgeInsets.only(top: 15)),
-                         Image(image: AssetImage("images/vegan.jfif"), width: 150,),
-                         Text("Végétarien",style: new TextStyle(fontSize: 17),),
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               Card(
-                 color: Colors.red[100],
-                 shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(30)
-                 ),
-                 margin: EdgeInsets.all(8.0),
-                 child: InkWell(
-                   onTap: () {},
-                   child: Center(
-                     child: Column(
-                       mainAxisSize: MainAxisSize.min,
-                       children: <Widget> [
-                         Padding(padding: EdgeInsets.only(top: 15)),
-                         Image(image: AssetImage("images/asianfood.jfif"),width:130,),
-                         Text("Japonais",style: new TextStyle(fontSize: 17),)
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               Card(
-                 color: Colors.red[100],
-                 shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(30)
-                 ),
-                 margin: EdgeInsets.all(8.0),
-                 child: InkWell(
-                   onTap: () {},
-                   child: Center(
-                     child: Column(
-                       mainAxisSize: MainAxisSize.min,
-                       children: <Widget> [
-                         Padding(padding: EdgeInsets.only(top: 15)),
-                         Image(image: AssetImage("images/maiga.jfif"),width: 100,),
-                         Text("Maiga",style: new TextStyle(fontSize: 17),)
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               Card(
-                 color: Colors.red[100],
-                 shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(30)
-                 ),
-                 margin: EdgeInsets.all(8.0),
-                 child: InkWell(
-                   onTap: () {},
-                   child: Center(
-                     child: Column(
-                       mainAxisSize: MainAxisSize.min,
-                       children: <Widget> [
-                         Padding(padding: EdgeInsets.only(top: 15)),
-                         Image(image: AssetImage("images/asian.jfif"),width: 125,),
-                         Text("Indien",style: new TextStyle(fontSize: 17),)
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               Card(
-                 color: Colors.red[100],
-                 shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(30)
-                 ),
-                 margin: EdgeInsets.all(8.0),
-                 child: InkWell(
-                   onTap: () {},
-                   child: Center(
-                     child: Column(
-                       mainAxisSize: MainAxisSize.min,
-                       children: <Widget> [
-                         Padding(padding: EdgeInsets.only(top: 15)),
-                         Image(image: AssetImage("images/français.jfif"),width: 125,),
-                         Text("Français",style: new TextStyle(fontSize: 17),)
-                       ],
-                     ),
-                   ),
-                 ),
-               ),
-               Container(
-                 //padding: EdgeInsets.only(left: 20),
-                 /*decoration: ShapeDecoration(
-                   shape: RoundedRectangleBorder()
-                 )*/
-                 alignment: Alignment.topCenter,
-                 child:Row(
-                   children: [
-                     //Padding(padding: EdgeInsets.only(left: 30)),
-                     Spacer(),
-                     IconButton(onPressed: (){
-                       Navigator.of(context).push(
-                           MaterialPageRoute(builder: (BuildContext ctx) {
-                             return Connection();
-                           }
-                           )
-                       );
-                     },
-                       icon: Icon(Icons.home,
-                         color: Color.fromRGBO(252, 14, 14, 1),
-                         size: 30,
-
-                       ),
-                       //splashColor: Colors.pink,
-                       //splashRadius: 20,
-
-                     ),
-                     //Padding(padding: EdgeInsets.only(right: 30)),
-                     Spacer(),
-
-                     IconButton(onPressed: (){
-                       Navigator.of(context).push(
-                           MaterialPageRoute(builder: (BuildContext ctx) {
-                             return Connection();
-                           }
-                           )
-                       );
-                     },
-                       icon: Icon(Icons.home,
-                         color: Color.fromRGBO(252, 14, 14, 1),
-                         size: 30,
-
-                       ),
-                       //splashColor: Colors.pink,
-                       //splashRadius: 20,
-
-                     ),
-                     Spacer(),
-
-                     IconButton(onPressed: (){
-                       Navigator.of(context).push(
-                           MaterialPageRoute(builder: (BuildContext ctx) {
-                             return Connection();
-                           }
-                           )
-                       );
-                     },
-                       icon: Icon(Icons.home,
-                         color: Color.fromRGBO(252, 14, 14, 1),
-                         size: 30,
-
-                       ),
-                       //splashColor: Colors.pink,
-                       //splashRadius: 20,
-
-                     ),
-                  ]
-
-                     ),
-               )
-                       ]
-                       ),
-      )
     );
   }
+
+  Widget buildRestaurant(Restaurant restaurant) => Container(
+
+    child:
+
+    Card(
+      margin: EdgeInsets.only(left: 15,right: 15,top: 10),
+
+      child:Container(
+        height: 726/10,
+        padding: EdgeInsets.all(10),
+        //decoration: ,
+        child:
+        Row(
+
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              height: 726/11,
+              width: 360/7,
+              padding: EdgeInsets.all(0),
+              margin: EdgeInsets.only(right: 10),
+              child: Image.network(restaurant.urlImage,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Column(
+              children: [
+                Text(
+                  restaurant.nom,
+                  style: TextStyle(
+                    fontSize: 20,
+                    //fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(252, 14, 14, 1),
+                  ),
+                ),
+                Padding(padding: EdgeInsets.all(0)),
+                Expanded(child:
+
+                  Text(restaurant.distance.toString()+" min",
+                  textAlign: TextAlign.left,),
+                )
+
+              ],),
+            Spacer(),
+            IconButton(onPressed: (){
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (BuildContext ctx) {
+                    return AffichageMenu();
+                  }
+                  )
+              );
+            },
+              icon: Icon(Icons.menu,
+                color: Colors.black,
+                size: 30,
+
+              ),
+              //splashColor: Colors.pink,
+              //splashRadius: 20,
+
+            ),
+
+          ],
+        ),
+      )
+
+      ,),);
+
+  Stream<List<Restaurant>> readRestaurant() => FirebaseFirestore.instance.collection('Restau').snapshots().map((snapshot) =>
+  snapshot.docs.map((doc) => Restaurant.fromJson(doc.data())).toList());
+}
+
+class Restaurant {
+  String id;
+  String nom;
+  String tel;
+  String adresse;
+  String categorie;
+  String urlImage;
+  int distance;
+  //List<Plat> Plats = [];
+
+  Restaurant(
+      {required this.id,
+        required this.nom,
+        required this.tel,
+        required this.adresse,
+        required this.categorie,
+        required this.urlImage,
+        this.distance = 0});
+
+  Map<String, dynamic> toJson() =>{
+    'nom' : nom,
+    'tel' : tel,
+    'id' : id,
+    'adresse' : adresse,
+    'categorie' : categorie,
+    'urlImage' : urlImage
+  };
+
+  static Restaurant fromJson(Map<String , dynamic> json) => Restaurant(id: json['id'].toString() , nom: json['nom'].toString() , tel: json['tel'].toString() , adresse: json['adresse'].toString() , categorie: json['categorie'].toString() , urlImage: json['urlImage'].toString() );
 }

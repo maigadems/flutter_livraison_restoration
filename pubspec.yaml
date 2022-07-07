@@ -25,6 +25,7 @@ dependencies:
   email_validator: ^2.0.1
   file_picker: ^3.0.4
   firebase_storage: ^10.3.1
+  carousel_slider: ^4.1.1
 
 
 
@@ -48,4 +49,9 @@ flutter:
     - images/français.jfif
     - images/maiga.jfif
     - images/vegan.jfif
+    - images/boisson.jpg
+    - images/dessert.jpg
+    - images/resistance.jpg
+    - images/resistance2.jpg
+    - images/entree.jpg
 

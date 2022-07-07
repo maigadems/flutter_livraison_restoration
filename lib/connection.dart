@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
-import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
+import 'package:flutter_livraison_restoration/affichageCategorie.dart';
 import 'package:flutter_livraison_restoration/inscription.dart';
 import 'package:flutter_livraison_restoration/suite_inscription.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -166,7 +166,7 @@ class ConnectionState extends State<Connection>{
                           setState(() => loading = true );
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (BuildContext ctx) {
-                                return AffichageRestaurant();
+                                return AffichageCategorie();
                               }));
                         }).onError((error, stackTrace) {
                           setState((){
