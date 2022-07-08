@@ -267,9 +267,8 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(0)),
-                Expanded(child:
-
-                  Text(restaurant.distance.toString()+" min",
+                Expanded(
+                     child: Text(restaurant.distance.toString()+" min",
                   textAlign: TextAlign.left,),
                 )
 

@@ -3,6 +3,11 @@ import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
 import 'package:flutter_livraison_restoration/connection.dart';
 
 class AffichageCategorie extends StatefulWidget{
+  makeImagesGrid()
+  {
+    return GridView.count(crossAxisCount: 2);
+
+  }
   @override
   AffichageCategorieState createState() => AffichageCategorieState();
 
