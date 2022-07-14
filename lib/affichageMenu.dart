@@ -165,6 +165,11 @@ class AffichageMenuState extends State <AffichageMenu> {
   Widget buildPlats (Plats plat) {
 
     var size = MediaQuery.of(context).size;
+    Map<dynamic, dynamic> details = {};
+    details['nomPlat'] = plat.nomPlat;
+    details['photo'] = plat.photo;
+    details['description'] = plat.description;
+    details['prixPlat'] = plat.prixPlat;
 
     return Container(
       width: size.width / 2.2,
@@ -190,7 +195,7 @@ class AffichageMenuState extends State <AffichageMenu> {
                         onTap: (){
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (BuildContext ctx){
-                            return  Accueil();
+                            return  DetailsPlats(details: details);
                           })
                           );
                         },
