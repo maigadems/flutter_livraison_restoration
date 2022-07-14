@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_livraison_restoration/affichageCategorie.dart';
+import 'categorieRestaurant.dart';
+import 'package:flutter_livraison_restoration/affichageMenu.dart';
 import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
 import 'package:flutter_livraison_restoration/connection.dart';
+import 'package:flutter_livraison_restoration/gestion_donnees/categorieRestau.dart';
 import 'package:flutter_livraison_restoration/inscription.dart';
 import 'package:flutter_livraison_restoration/inscription_reussi.dart';
+import 'package:flutter_livraison_restoration/menuRestaurant.dart';
+import 'package:flutter_livraison_restoration/menurestaurant.dart';
+import 'package:flutter_livraison_restoration/recuperationmenu.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
@@ -71,7 +78,7 @@ class Accueil extends StatelessWidget{
                 onPressed:() {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (BuildContext ctx) {
-                        return Connection();
+                        return CategorieRestaurant();
                       }));
                 },
                 color: Colors.white,

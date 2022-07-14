@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
 import 'package:flutter_livraison_restoration/inscription.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'users.dart';
+import 'gestion_donnees/users.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 class SuiteInscription extends StatefulWidget {
@@ -32,6 +32,7 @@ class SuiteInscriptionState extends State<SuiteInscription> {
 
     // TODO: implement build
     return Scaffold(
+
       body: SingleChildScrollView(
         child:  Container(
           margin: EdgeInsets.only(bottom: 10, right: 10, left: 10),

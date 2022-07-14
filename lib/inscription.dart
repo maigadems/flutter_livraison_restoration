@@ -4,7 +4,7 @@ import 'package:flutter_livraison_restoration/accueil.dart';
 import 'package:flutter_livraison_restoration/inscription_reussi.dart';
 import 'package:flutter_livraison_restoration/loading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'users.dart';
+import 'package:flutter_livraison_restoration/gestion_donnees/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:email_validator/email_validator.dart';

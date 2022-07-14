@@ -25,7 +25,7 @@ class InscriptionReussi extends StatelessWidget{
         alignment: Alignment.center,
         child: Container(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceAround  ,
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

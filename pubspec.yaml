@@ -25,6 +25,11 @@ dependencies:
   email_validator: ^2.0.1
   file_picker: ^3.0.4
   firebase_storage: ^10.3.1
+  location: ^4.4.0
+  carousel_slider: ^4.1.1
+  font_awesome: ^5.10.1
+  awesome_icons: ^1.1.0
+  shimmer: ^2.0.0
 
 
 
@@ -41,4 +46,10 @@ flutter:
 
 
   uses-material-design: true
+  assets:
+    - lib/images/boisson.jpg
+    - lib/images/dessert.jpg
+    - lib/images/resistance.jpg
+    - lib/images/resistance2.jpg
+    - lib/images/entree.jpg
 
