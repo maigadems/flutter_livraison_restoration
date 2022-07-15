@@ -27,7 +27,7 @@ class AffichageMenuState extends State <AffichageMenu> {
 
   TextEditingController controllerRecherche = TextEditingController();
 
-  String nomPlat = "" ;
+  String achercher = "" ;
 
 
   @override
@@ -97,19 +97,10 @@ class AffichageMenuState extends State <AffichageMenu> {
                       margin: EdgeInsets.only(right: 18, left: 18),
                       child:TextFormField(
                         controller: controllerRecherche,
-                        onChanged:  (val){
+                        onChanged:  (newString){
                           setState((){
-                            nomPlat = val;
-                            if (val.length > 0){
-                              print('Salut');
-                            }
+                            achercher = newString;
                           });
-                        },
-                        validator:(value){
-                          if (value!.isEmpty){
-                            return 'Please enter a motif';
-                          }
-                          return null;
                         },
                         style: TextStyle(
                             fontSize: 18
@@ -133,7 +124,7 @@ class AffichageMenuState extends State <AffichageMenu> {
                             ),
                             splashColor: Colors.red[200],
                             onPressed: (){
-                              nomPlat = "";
+                              achercher = "";
                             },
                           ),
                         ),
@@ -166,95 +157,202 @@ class AffichageMenuState extends State <AffichageMenu> {
 
     var size = MediaQuery.of(context).size;
 
-    return Container(
-      width: size.width / 2.2,
-      height: size.height / 3.5,
-      margin: EdgeInsets.all(9),
-      padding: EdgeInsets.all(5),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin:Alignment.topLeft,
-          colors: [Color.fromRGBO(232, 83, 83, 0.5),Color.fromRGBO(196, 196, 196, 0.15) ],
-          end: Alignment.topRight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child:  Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                      child: GestureDetector(
-                        onTap: (){
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (BuildContext ctx){
-                            return  Accueil();
-                          })
-                          );
-                        },
-                        child:  Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                plat.photo,
-                                width: size.width / 3,
-                                height: size.height / 8,
-                                fit: BoxFit.cover,
-                              ),
+    if(achercher == "") {
+      return Container(
+          width: size.width / 2.2,
+          height: size.height / 3.5,
+          margin: EdgeInsets.all(9),
+          padding: EdgeInsets.all(5),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              colors: [
+                Color.fromRGBO(232, 83, 83, 0.5),
+                Color.fromRGBO(196, 196, 196, 0.15)
+              ],
+              end: Alignment.topRight,
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Stack(
+              children: [
+                Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                  builder: (BuildContext ctx) {
+                                    return Accueil();
+                                  })
+                              );
+                            },
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    plat.photo,
+                                    width: size.width / 3,
+                                    height: size.height / 8,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Text(
+                                  plat.nomPlat,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 20,
+                                    color: Color.fromRGBO(252, 14, 14, 1),
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              plat.nomPlat,
-                              style: GoogleFonts.poppins(
+                          )
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            plat.prixPlat.toString() + ' Frcs',
+                            style: TextStyle(
                                 fontSize: 20,
+                                color: Color.fromRGBO(148, 126, 9, 1),
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                          Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
                                 color: Color.fromRGBO(252, 14, 14, 1),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        plat.prixPlat.toString() + ' Frcs',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromRGBO(148, 126, 9, 1),
-                            fontWeight: FontWeight.bold
-                        ),
+                              child: InkWell(
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context)
+                                            .push(MaterialPageRoute(
+                                            builder: (BuildContext ctx) {
+                                              return Accueil();
+                                            })
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.add, color: Colors.white,)
+                                  )
+                              )
+                          )
+                        ],
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color:Color.fromRGBO(252, 14, 14, 1),
-                        ),
-                        child: InkWell(
-                            child: GestureDetector(
-                              onTap: (){
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (BuildContext ctx){
-                                  return Accueil();
-                                })
-                                );
-                              },
-                              child:Icon (Icons.add, color: Colors.white,)
-                            )
-                        )
-                      )
-                    ],
-                  ),
-                ]
-            )
-          ]
+                    ]
+                )
+              ]
 
-      )
-    );
+          )
+      );
+    }else{
+      if(plat.nomPlat.toUpperCase().contains(RegExp(achercher.toUpperCase())))
+        {
+          return Container(
+              width: size.width / 2.2,
+              height: size.height / 3.5,
+              margin: EdgeInsets.all(9),
+              padding: EdgeInsets.all(5),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  colors: [
+                    Color.fromRGBO(232, 83, 83, 0.5),
+                    Color.fromRGBO(196, 196, 196, 0.15)
+                  ],
+                  end: Alignment.topRight,
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Stack(
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(
+                                      builder: (BuildContext ctx) {
+                                        return Accueil();
+                                      })
+                                  );
+                                },
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        plat.photo,
+                                        width: size.width / 3,
+                                        height: size.height / 8,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Text(
+                                      plat.nomPlat,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 20,
+                                        color: Color.fromRGBO(252, 14, 14, 1),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                plat.prixPlat.toString() + ' Frcs',
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromRGBO(148, 126, 9, 1),
+                                    fontWeight: FontWeight.bold
+                                ),
+                              ),
+                              Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromRGBO(252, 14, 14, 1),
+                                  ),
+                                  child: InkWell(
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                                builder: (BuildContext ctx) {
+                                                  return Accueil();
+                                                })
+                                            );
+                                          },
+                                          child: Icon(
+                                            Icons.add, color: Colors.white,)
+                                      )
+                                  )
+                              )
+                            ],
+                          ),
+                        ]
+                    )
+                  ]
+
+              )
+          );
+        }else{return Container(child: Center(child: Text(""),),);}
+    }
   }
 
 

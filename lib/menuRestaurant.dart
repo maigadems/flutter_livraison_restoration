@@ -10,207 +10,192 @@ import 'package:flutter_livraison_restoration/loading.dart';
 
 
 
-class MenuRestaurantt extends StatefulWidget {
+class MenuRestaurant extends StatefulWidget {
   @override
-  MenuRestauranttState createState() => MenuRestauranttState();
+  MenuRestaurantState createState() => MenuRestaurantState();
 
 }
 
-class MenuRestauranttState extends State <MenuRestaurantt> {
+class MenuRestaurantState extends State <MenuRestaurant> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
-    Map <dynamic, dynamic> plats = {};
-
 
     // Recuperation des donnees du Restaurant
 
 
     // TODO: implement build
-    return StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Restaurant')
-              .doc('OXHfnJQOUW5xj6d6zghx').collection('plat').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return Center(child: Text('Erreur ${snapshot.error}'));
-            }
-            else if (snapshot.hasData) {
-              QuerySnapshot data = snapshot.requireData as QuerySnapshot;
-              return  Container(
-                margin: EdgeInsets.only(top: 30),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(top: 30),
+          width: size.width,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 30),
+                height: size.height / 5,
+                //color: Colors.green,
                 width: size.width,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                  ]
+                ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 30),
-                      height: size.height / 5,
-                      //color: Colors.green,
-                      width: size.width,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                          ]
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            'Categorie de plats',
-                            style: GoogleFonts.poppins(
-                              color:Color.fromRGBO(252, 14, 14, 1),
-                              fontSize: 28,
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Ent'
-                                  'ree', "lib/images/entree.jpg"),
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Res'
-                                  'istance', "lib/images/resistance.jpg"),
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Boi'
-                                  'sson', "lib/images/boisson.jpg"),
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Dessert', "lib/images/dessert.jpg"),
-                            ],
-                          ),
-                        ],
+                    Text(
+                      'Categorie de plats',
+                      style: GoogleFonts.poppins(
+                        color:Color.fromRGBO(252, 14, 14, 1),
+                        fontSize: 28,
                       ),
                     ),
-                    details('Nos Entrees'),
-                    Container(
-                        padding: EdgeInsets.all(2),
-                        width: size.width,
-                        height: size.height / 3.5,
-                        decoration: BoxDecoration(
-                          //color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                enlargeCenterPage: true,
-                                autoPlay: true,
-                                aspectRatio: 16/9,
-                                autoPlayCurve:Curves.fastOutSlowIn,
-                                enableInfiniteScroll: true,
-                                autoPlayAnimationDuration: Duration(milliseconds:
-                                800),
-                              ),
-                              items: [
-                                enfant(size.width / 2, size.height / 6.5, "lib/ima"
-                                    "ges/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
-                                enfant(size.width / 2, size.height / 6.5, "lib/images"
-                                    "/entree.jpg", "Mafe Yapp", "2000 Frcs"),
-                                enfant(size.width / 2, size.height / 6.5, "lib/images"
-                                    "/dessert.jpg", "Mafe Yapp", "2000 Frcs"),
-                                enfant(size.width / 2, size.height / 6.5, "lib/images"
-                                    "/resistance.jpg", "Mafe Yapp", "2000 Frcs"),
-                              ],
-                            )
-                          ],
-                        )
-                    ),
-                    details('Nos Plats de Resistances'),
-                    Container(
-                        padding: EdgeInsets.all(2),
-                        width: size.width,
-                        height: size.height / 3.5,
-                        decoration: BoxDecoration(
-                          //color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                enlargeCenterPage: true,
-                                autoPlay: false,
-                                aspectRatio: 16/9,
-                                reverse: true,
-                                autoPlayCurve:Curves.fastOutSlowIn,
-                                enableInfiniteScroll: true,
-                                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                              ),
-                              items: [
-                                enfant(size.width / 2, size.height / 6.5, "lib/image"
-                                    "s/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
-                              ],
-                            )
-                          ],
-                        )
-                    ),
-                    details('Nos Desserts'),
-                    Container(
-                        padding: EdgeInsets.all(2),
-                        width: size.width,
-                        height: size.height / 3.5,
-                        decoration: BoxDecoration(
-                          //color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                enlargeCenterPage: true,
-                                autoPlay: true,
-                                aspectRatio: 16/9,
-                                autoPlayCurve:Curves.fastOutSlowIn,
-                                enableInfiniteScroll: true,
-                                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                              ),
-                              items: [
-                                enfant(size.width / 2, size.height / 6.5, "lib/image"
-                                    "s/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
-                              ],
-                            )
-                          ],
-                        )
-                    ),
-                    details('Nos Boissons'),
-                    Container(
-                        margin: EdgeInsets.only(bottom: 20),
-                        padding: EdgeInsets.all(2),
-                        width: size.width,
-                        height: size.height / 3.5,
-                        decoration: BoxDecoration(
-                          //color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            CarouselSlider(
-                              options: CarouselOptions(
-                                enlargeCenterPage: true,
-                                autoPlay: false,
-                                aspectRatio: 16/9,
-                                autoPlayCurve:Curves.fastOutSlowIn,
-                                enableInfiniteScroll: true,
-                                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                              ),
-                              items: [
-                                enfant(size.width / 2, size.height / 6.5, "lib/images"
-                                    "/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
-                              ],
-                            )
-                          ],
-                        )
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        categoriePlat(size.width / 4.5, size.height / 9, 'Ent'
+                            'ree', "lib/images/entree.jpg"),
+                        categoriePlat(size.width / 4.5, size.height / 9, 'Res'
+                            'istance', "lib/images/resistance.jpg"),
+                        categoriePlat(size.width / 4.5, size.height / 9, 'Boi'
+                            'sson', "lib/images/boisson.jpg"),
+                        categoriePlat(size.width / 4.5, size.height / 9, 'Dessert', "lib/images/dessert.jpg"),
+                      ],
                     ),
                   ],
                 ),
-            ) ;
-
-            }
-
-            return Center(child: CircularProgressIndicator());
-          }
-      );
-
+              ),
+              details('Nos Entrees'),
+              Container(
+                    padding: EdgeInsets.all(2),
+                    width: size.width,
+                    height: size.height / 3.5,
+                    decoration: BoxDecoration(
+                      //color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        CarouselSlider(
+                          options: CarouselOptions(
+                            enlargeCenterPage: true,
+                            autoPlay: true,
+                            aspectRatio: 16/9,
+                            autoPlayCurve:Curves.fastOutSlowIn,
+                            enableInfiniteScroll: true,
+                            autoPlayAnimationDuration: Duration(milliseconds:
+                            800),
+                          ),
+                          items: [
+                            enfant(size.width / 2, size.height / 6.5, "lib/ima"
+                                "ges/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
+                            enfant(size.width / 2, size.height / 6.5, "lib/images"
+                                "/entree.jpg", "Mafe Yapp", "2000 Frcs"),
+                            enfant(size.width / 2, size.height / 6.5, "lib/images"
+                                "/dessert.jpg", "Mafe Yapp", "2000 Frcs"),
+                            enfant(size.width / 2, size.height / 6.5, "lib/images"
+                                "/resistance.jpg", "Mafe Yapp", "2000 Frcs"),
+                          ],
+                        )
+                      ],
+                    )
+                ),
+              details('Nos Plats de Resistances'),
+              Container(
+                  padding: EdgeInsets.all(2),
+                  width: size.width,
+                  height: size.height / 3.5,
+                  decoration: BoxDecoration(
+                    //color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          enlargeCenterPage: true,
+                          autoPlay: false,
+                          aspectRatio: 16/9,
+                          reverse: true,
+                          autoPlayCurve:Curves.fastOutSlowIn,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        ),
+                        items: [
+                          enfant(size.width / 2, size.height / 6.5, "lib/image"
+                              "s/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
+                        ],
+                      )
+                    ],
+                  )
+              ),
+              details('Nos Desserts'),
+              Container(
+                  padding: EdgeInsets.all(2),
+                  width: size.width,
+                  height: size.height / 3.5,
+                  decoration: BoxDecoration(
+                    //color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          enlargeCenterPage: true,
+                          autoPlay: true,
+                          aspectRatio: 16/9,
+                          autoPlayCurve:Curves.fastOutSlowIn,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        ),
+                        items: [
+                          enfant(size.width / 2, size.height / 6.5, "lib/image"
+                              "s/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
+                        ],
+                      )
+                    ],
+                  )
+              ),
+              details('Nos Boissons'),
+              Container(
+                margin: EdgeInsets.only(bottom: 20),
+                  padding: EdgeInsets.all(2),
+                  width: size.width,
+                  height: size.height / 3.5,
+                  decoration: BoxDecoration(
+                    //color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          enlargeCenterPage: true,
+                          autoPlay: false,
+                          aspectRatio: 16/9,
+                          autoPlayCurve:Curves.fastOutSlowIn,
+                          enableInfiniteScroll: true,
+                          autoPlayAnimationDuration: Duration(milliseconds: 800),
+                        ),
+                        items: [
+                          enfant(size.width / 2, size.height / 6.5, "lib/images"
+                              "/boisson.jpg", "Mafe Yapp", "2000 Frcs"),
+                        ],
+                      )
+                    ],
+                  )
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 
@@ -237,7 +222,7 @@ class MenuRestauranttState extends State <MenuRestaurantt> {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (BuildContext ctx) {
                     return RecuperationMenu();
-                  }
+                    }
                   )
               );
             },
@@ -245,15 +230,15 @@ class MenuRestauranttState extends State <MenuRestaurantt> {
               width: width,
               height: height,
               decoration: BoxDecoration(
-                  color: Colors.red,
+                color: Colors.red,
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
-                    BoxShadow(
-                        blurRadius: 20,
-                        color: Colors.grey.withOpacity(.2),
-                        offset: Offset(10,10)
-                    ),
-                  ]
+                  BoxShadow(
+                    blurRadius: 20,
+                    color: Colors.grey.withOpacity(.2),
+                    offset: Offset(10,10)
+                  ),
+                ]
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
@@ -267,8 +252,8 @@ class MenuRestauranttState extends State <MenuRestaurantt> {
         ),
         Text(titre,
           style: TextStyle(
-              color: Color.fromRGBO(98, 98, 98, 1),
-              fontSize: 18
+            //color: Color.fromRGBO(98, 98, 98, 1),
+            fontSize: 18
           ),
         )
       ],
@@ -285,9 +270,9 @@ class MenuRestauranttState extends State <MenuRestaurantt> {
             onTap: (){
               Navigator.of(context)
                   .push(
-                  MaterialPageRoute(builder: (BuildContext ctx){
-                    return Accueil();
-                  }
+                    MaterialPageRoute(builder: (BuildContext ctx){
+                      return Accueil();
+                    }
                   )
               );
             },
@@ -357,12 +342,12 @@ class MenuRestauranttState extends State <MenuRestaurantt> {
     return TextButton(
         onPressed: (){},
         child:Text(
-            titre,
-            style: GoogleFonts.arimaMadurai(
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(98, 98, 98, 1),
-            )
+          titre,
+          style: GoogleFonts.arimaMadurai(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Color.fromRGBO(98, 98, 98, 1),
+          )
         )
     );
   }
@@ -370,7 +355,7 @@ class MenuRestauranttState extends State <MenuRestaurantt> {
   Stream<List<Plats>> readPlats() => FirebaseFirestore.instance.collection
     ('Restaurant').doc('OXHfnJQOUW5xj6d6zghx').collection('plat').snapshots()
       .map((snapshot) =>
-      snapshot.docs.map((doc) => Plats.fromJson(doc.data())).toList());
+        snapshot.docs.map((doc) => Plats.fromJson(doc.data())).toList());
 
   final CollectionReference platCarousel = FirebaseFirestore.instance
       .collection('Restaurant').doc('OXHfnJQOUW5xj6d6zghx').collection('plat');

@@ -26,7 +26,7 @@ class AffichageRestaurant extends StatefulWidget{
 class AffichageRestaurantState extends State <AffichageRestaurant> {
 
   TextEditingController controllerRecherche = TextEditingController();
-  String? motif;
+  String achercher = "";
 
 
 
@@ -67,12 +67,9 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                     margin: EdgeInsets.only(right: 18, left: 18),
                     child:TextFormField(
                       controller: controllerRecherche,
-                      onChanged:  (val){
+                      onChanged:  (newString){
                         setState((){
-                          motif = val;
-                          if (val.length > 0){
-                            print('Salut');
-                          }
+                          achercher = newString;
                         });
                       },
                       validator:(value){
@@ -102,7 +99,7 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                           ),
                           splashColor: Colors.red[200],
                           onPressed: (){
-                            motif = "";
+                            achercher = "";
                           },
                         ),
                       ),
@@ -145,88 +142,182 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
   Widget buildRestaurant(Restaurant restaurant) {
     var size = MediaQuery.of(context).size;
 
-    return Container(
-      width: size.width,
-        height: size.width /4.5,
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(9),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin:Alignment.topCenter,
-            colors: [Color.fromRGBO(232, 83, 83, 0.5),Color.fromRGBO(196, 196, 196, 0.15) ],
-            end: Alignment.bottomCenter,
+    if(achercher == "") {
+      return Container(
+          width: size.width,
+          height: size.width / 4.5,
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.all(9),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              colors: [
+                Color.fromRGBO(232, 83, 83, 0.5),
+                Color.fromRGBO(196, 196, 196, 0.15)
+              ],
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(20),
           ),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Stack(
-            children:[
-              Row(
-                mainAxisSize:  MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      restaurant.photoRestaurant,
-                      width: size.width / 4,
-                      height: size.height / 5,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(left: 15),
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      child: Column(
-                          mainAxisSize:  MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text.rich(
-                                TextSpan(
-                                  text : '${restaurant.nomRestaurant}\n\n',
-                                    style: GoogleFonts.rubik(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(252, 14, 14, 1),
-                                    ),
-                                  children:[
-                                    TextSpan(
-                                      text: restaurant.distance.toString() +
-                                          " min",
-                                      style: GoogleFonts.rubik(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.normal
-                                      ),
-
-                                    )
-                                  ]
-                                )
-                            )
-                          ]
+          child: Stack(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        restaurant.photoRestaurant,
+                        width: size.width / 4,
+                        height: size.height / 5,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ),
-                  Spacer(),
-                  IconButton(onPressed: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (BuildContext ctx) {
-                          String restPlat = restaurant.idRest;
-                          return AffichageMenu(idRestaurant: restPlat);
-                        }
-                        )
-                    );
-                  },
-                    icon: Icon(Icons.menu_sharp,
-                      color: Colors.black,
-                      size: 40,
+                    Padding(padding: EdgeInsets.only(left: 15),
+                      child: Container(
+                        alignment: Alignment.topLeft,
+                        child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text.rich(
+                                  TextSpan(
+                                      text: '${restaurant.nomRestaurant}\n\n',
+                                      style: GoogleFonts.rubik(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromRGBO(252, 14, 14, 1),
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: restaurant.distance.toString() +
+                                              " min",
+                                          style: GoogleFonts.rubik(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.normal
+                                          ),
+
+                                        )
+                                      ]
+                                  )
+                              )
+                            ]
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    Spacer(),
+                    IconButton(onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (BuildContext ctx) {
+                            String restPlat = restaurant.idRest;
+                            return AffichageMenu(idRestaurant: restPlat);
+                          }
+                          )
+                      );
+                    },
+                      icon: Icon(Icons.menu_sharp,
+                        color: Colors.black,
+                        size: 40,
+                      ),
+                    ),
+                  ],
+                ),
+              ]
+          )
+      );
+    }else{
+      if(restaurant.nomRestaurant.toUpperCase().contains(RegExp(achercher.toUpperCase())))
+        {
+          return Container(
+              width: size.width,
+              height: size.width / 4.5,
+              padding: EdgeInsets.all(10),
+              margin: EdgeInsets.all(9),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  colors: [
+                    Color.fromRGBO(232, 83, 83, 0.5),
+                    Color.fromRGBO(196, 196, 196, 0.15)
+                  ],
+                  end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-            ]
-        )
-    );
+              child: Stack(
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            restaurant.photoRestaurant,
+                            width: size.width / 4,
+                            height: size.height / 5,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(padding: EdgeInsets.only(left: 15),
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text.rich(
+                                      TextSpan(
+                                          text: '${restaurant.nomRestaurant}\n\n',
+                                          style: GoogleFonts.rubik(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color.fromRGBO(252, 14, 14, 1),
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: restaurant.distance.toString() +
+                                                  " min",
+                                              style: GoogleFonts.rubik(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.normal
+                                              ),
+
+                                            )
+                                          ]
+                                      )
+                                  )
+                                ]
+                            ),
+                          ),
+                        ),
+                        Spacer(),
+                        IconButton(onPressed: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (BuildContext ctx) {
+                                String restPlat = restaurant.idRest;
+                                return AffichageMenu(idRestaurant: restPlat);
+                              }
+                              )
+                          );
+                        },
+                          icon: Icon(Icons.menu_sharp,
+                            color: Colors.black,
+                            size: 40,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ]
+              )
+          );
+        }else{return Container(child: Center(child: Text(""),),);}
+    }
   }
 
 Stream<List<Restaurant>> readRestaurant() {
