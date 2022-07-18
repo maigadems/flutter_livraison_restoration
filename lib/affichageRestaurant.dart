@@ -1,14 +1,21 @@
 import 'dart:async';
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter_livraison_restoration/firestore_buckets.dart';
+import 'package:flutter_livraison_restoration/navigation.dart';
+import 'package:flutter_livraison_restoration/test/cart_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_livraison_restoration/affichageCategorie.dart';
 import 'package:flutter_livraison_restoration/affichageMenu.dart';
 import 'package:flutter_livraison_restoration/menurestaurant.dart';
+import 'categorieRestaurant.dart';
+import 'connection.dart';
 import 'gestion_donnees/restaurant.dart';
 
 class AffichageRestaurant extends StatefulWidget{
@@ -28,13 +35,10 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
   TextEditingController controllerRecherche = TextEditingController();
   String? motif;
 
-
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-
       body:StreamBuilder<List<Restaurant>>(
         stream: readRestaurant(),
         builder: (context,snapshot){
@@ -116,7 +120,7 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                         children:Restaurant.map(buildRestaurant).toList()
                       ),
                     ),
-                  ),
+                  )
                 ],
               )
             );
@@ -126,18 +130,39 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
           }
         }
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(color: Colors.white),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(Icons.home_filled,color: Color.fromRGBO(252, 14, 14, 1)),
-                Icon(Icons.shopping_cart_outlined),
-                Icon(Icons.output),
-              ]
-          )
+            height: 50,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Color.fromRGBO(236, 238, 241,
+                .83)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                    onPressed: () => Get.to(() => CategorieRestaurant()),
+                    icon:Icon(Icons.home_filled,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Get.to(() => CartScreen()),
+                    icon:Icon(Icons.shopping_cart_outlined,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      FirebaseAuth.instance.signOut().then((value) =>
+                          Get.to(() => Connection())
+                      );
+                    },
+                    icon:Icon(Icons.output_rounded,
+
+                    ),
+                  ),
+                ]
+            )
         )
     );
   }

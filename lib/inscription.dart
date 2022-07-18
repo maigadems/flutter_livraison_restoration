@@ -61,21 +61,11 @@ class InscriptionState extends State<Inscription>{
            mainAxisAlignment: MainAxisAlignment.center,
            children: [
              CircleAvatar(
-               radius: 60,
-               backgroundImage:NetworkImage("https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600"),
+               radius: 120,
+               backgroundImage:AssetImage('images/BalXawFood(1).png'),
+               backgroundColor: Colors.transparent,
              ),
-             Text(
-                 "BalxawFood",
-                 style: GoogleFonts.viga(
-                     textStyle: TextStyle(
-                       color: Color.fromRGBO(252, 14, 14, 1),
-                       fontSize: 25,
-                       fontWeight: FontWeight.bold,
-                     )
-                 )
-             ),
-             Text("livraison a domicile"),
-             Padding(padding: EdgeInsets.only(top:30), child: Text
+             Padding(padding: EdgeInsets.only(top:0), child: Text
                ("Inscription", style: TextStyle(fontWeight: FontWeight.bold,
                  fontSize: 25),),),
              Form(

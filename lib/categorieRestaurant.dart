@@ -1,10 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
 import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
+import 'package:flutter_livraison_restoration/connection.dart';
+import 'package:flutter_livraison_restoration/page_panier.dart';
+import 'package:flutter_livraison_restoration/test/cart_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firestore_buckets.dart';
 import 'gestion_donnees/categorieRestau.dart';
+import 'navigation.dart';
+
 
 
 
@@ -16,9 +24,15 @@ class CategorieRestaurant extends StatefulWidget {
 
 class CategorieRestaurantState extends State <CategorieRestaurant> {
 
-  TextEditingController controllerRecherche = TextEditingController();
 
+  TextEditingController controllerRecherche = TextEditingController();
+  int index = 0;
+  final screens = [
+
+    Connection()
+  ];
   String nomPlat = " " ;
+  bool mapage = true;
 
 
 
@@ -31,10 +45,12 @@ class CategorieRestaurantState extends State <CategorieRestaurant> {
 
   @override
   Widget build(BuildContext context) {
+
     var size = MediaQuery.of(context).size;
     // TODO: implement build
     return Scaffold(
-      body: StreamBuilder <List<CategorieRestau>>(
+      body:
+    StreamBuilder <List<CategorieRestau>>(
           stream : CategorieRestaurant,
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -116,7 +132,8 @@ class CategorieRestaurantState extends State <CategorieRestaurant> {
                         ),
                       ),
                     ],
-                  )
+                  ),
+
               );
             }
             else {
@@ -124,6 +141,41 @@ class CategorieRestaurantState extends State <CategorieRestaurant> {
             }
           }
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+
+        floatingActionButton: Container(
+          height: 50,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Color.fromRGBO(236, 238, 241,
+                .83)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+               // mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                    onPressed: (() => null),
+                    icon:Icon(Icons.home_filled,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Get.to(() => CartScreen()),
+                    icon:Icon(Icons.shopping_cart_outlined,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      FirebaseAuth.instance.signOut().then((value) =>
+                          Get.to(() => Connection())
+                      );
+                    },
+                    icon:Icon(Icons.output_rounded,
+
+                    ),
+                  ),
+                ]
+            )
+        )
     );
   }
 

@@ -1,9 +1,3 @@
-import 'cart.dart';
-import 'package:logger/logger.dart';
-
-//Logger logger = Logger();
-
-
 class Users {
   String id;
   String email;
@@ -12,7 +6,6 @@ class Users {
   String lastName;
   String numero;
   String? urlProfil;
-  //List<Cart>? cart;
 
   Users({
     this.id = '',
@@ -21,8 +14,7 @@ class Users {
     required this.firstName,
     required this.lastName,
     required this.numero,
-    this.urlProfil,
-   // this.cart,
+    this.urlProfil
   });
 
   Map<String, dynamic> toJson() => {
@@ -34,19 +26,4 @@ class Users {
     'numero' : numero,
     'Url Profil' :urlProfil,
   };
-/*
-  List<Cart> _convertirCart(List  cart) {
-
-    List<Cart> _resultats = [];
-    logger.i(cart.length);
-
-    cart.forEach((element) {
-      _resultats.add(Cart.fromJson(element));
-    });
-
-
-
-    return _resultats;
-
-  } */
 }

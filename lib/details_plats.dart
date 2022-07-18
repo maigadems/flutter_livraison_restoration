@@ -103,7 +103,7 @@ class _DetailsPlatsState extends State<DetailsPlats> {
                         margin: EdgeInsets.only(left: 20),
                         alignment: Alignment.topLeft,
                         child: Text(
-                            widget.details['description'],
+                            '${widget.details['description']}',
                           style: GoogleFonts.poppins(
                               fontSize: 18,
                               color: Color.fromRGBO(111, 111, 112, 1),

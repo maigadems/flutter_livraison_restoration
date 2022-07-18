@@ -1,13 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
+import 'package:flutter_livraison_restoration/categorieRestaurant.dart';
+import 'package:flutter_livraison_restoration/gestion_donnees'
+    '/cart_controller2.dart';
 import 'package:flutter_livraison_restoration/gestion_donnees/plats.dart';
+import 'package:flutter_livraison_restoration/page_panier.dart';
 import 'package:flutter_livraison_restoration/recuperationmenu.dart';
+import 'package:flutter_livraison_restoration/test/cart_controller.dart';
+import 'package:flutter_livraison_restoration/test/cart_screen.dart';
+import 'package:flutter_livraison_restoration/test/product_model.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_livraison_restoration/loading.dart';
-
+import 'connection.dart';
 import 'details_plats.dart';
 
 
@@ -15,8 +25,10 @@ import 'details_plats.dart';
 class AffichageMenu extends StatefulWidget {
 
   final String idRestaurant;
+  final cartController = Get.put(CartController());
 
-  const AffichageMenu({Key? key, required this.idRestaurant}):super(key:
+
+  AffichageMenu({Key? key, required this.idRestaurant}):super(key:
   key);
   @override
   AffichageMenuState createState() => AffichageMenuState();
@@ -24,6 +36,8 @@ class AffichageMenu extends StatefulWidget {
 }
 
 class AffichageMenuState extends State <AffichageMenu> {
+
+  //final cartController  = Get.put(CartController());
 
   TextEditingController controllerRecherche = TextEditingController();
 
@@ -80,13 +94,17 @@ class AffichageMenuState extends State <AffichageMenu> {
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Ent'
+                              categoriePlat(size.width / 5, size.height / 10,
+                                  'Ent'
                                   'ree', "lib/images/entree.jpg"),
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Res'
+                              categoriePlat(size.width / 5, size.height / 10,
+                                  'Res'
                                   'istance', "lib/images/resistance.jpg"),
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Boi'
+                              categoriePlat(size.width / 5, size.height /
+                                  10, 'Boi'
                                   'sson', "lib/images/boisson.jpg"),
-                              categoriePlat(size.width / 4.5, size.height / 9, 'Dessert', "lib/images/dessert.jpg"),
+                              categoriePlat(size.width / 5, size.height / 10,
+                                  'Dessert', "lib/images/dessert.jpg"),
                             ],
                           ),
                         ],
@@ -158,6 +176,40 @@ class AffichageMenuState extends State <AffichageMenu> {
               }
             }
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Container(
+            height: 50,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Color.fromRGBO(236, 238, 241,
+                .83)),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                    onPressed: () => Get.to(() => CategorieRestaurant()),
+                    icon:Icon(Icons.home_filled,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Get.to(() => CartScreen()),
+                    icon:Icon(Icons.shopping_cart_outlined,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      FirebaseAuth.instance.signOut().then((value) =>
+                          Get.to(() => Connection())
+                      );
+                    },
+                    icon:Icon(Icons.output_rounded,
+
+                    ),
+                  ),
+                ]
+            )
+        )
     );
   }
 
@@ -168,7 +220,7 @@ class AffichageMenuState extends State <AffichageMenu> {
     Map<dynamic, dynamic> details = {};
     details['nomPlat'] = plat.nomPlat;
     details['photo'] = plat.photo;
-    details['description'] = plat.description;
+   details['description'] = plat.description;
     details['prixPlat'] = plat.prixPlat;
 
     return Container(
@@ -178,7 +230,7 @@ class AffichageMenuState extends State <AffichageMenu> {
       padding: EdgeInsets.all(5),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: LinearGradient( 
           begin:Alignment.topLeft,
           colors: [Color.fromRGBO(232, 83, 83, 0.5),Color.fromRGBO(196, 196, 196, 0.15) ],
           end: Alignment.topRight,
@@ -242,11 +294,7 @@ class AffichageMenuState extends State <AffichageMenu> {
                         child: InkWell(
                             child: GestureDetector(
                               onTap: (){
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (BuildContext ctx){
-                                  return Accueil();
-                                })
-                                );
+                                widget.cartController.addProduct(plat);
                               },
                               child:Icon (Icons.add, color: Colors.white,)
                             )
@@ -279,12 +327,13 @@ class AffichageMenuState extends State <AffichageMenu> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (BuildContext ctx) {
-                    return RecuperationMenu();
+                    return Accueil();
                   }
                   )
               );
             },
             child: Container(
+              margin: EdgeInsets.only(bottom: 5),
               width: width,
               height: height,
               decoration: BoxDecoration(

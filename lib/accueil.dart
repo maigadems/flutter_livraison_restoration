@@ -45,32 +45,11 @@ class Accueil extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     CircleAvatar(
-                      radius: 100,
-                      backgroundImage: NetworkImage("https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600"),
+                      radius: 200,
+                      backgroundImage: AssetImage('images/BalXawFood.png'),
+                      backgroundColor: Colors.transparent,
                     ),
                     Divider(color: Colors.transparent),
-                    Text.rich(
-                      TextSpan(
-                        text: 'BalxawFood\n',
-                        style: GoogleFonts.viga(
-                            textStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            )
-                        ),
-                        children: [
-                          TextSpan(
-                            text:'Livraison a domicile',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
                   ],
                 ),
               ),
@@ -78,7 +57,7 @@ class Accueil extends StatelessWidget{
                 onPressed:() {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (BuildContext ctx) {
-                        return CategorieRestaurant();
+                        return Connection();
                       }));
                 },
                 color: Colors.white,

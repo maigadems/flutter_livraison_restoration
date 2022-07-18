@@ -1,4 +1,3 @@
-
 class Plats {
   String id;
   String nomPlat;
@@ -33,5 +32,4 @@ class Plats {
     typePlat : json['typePlat'] ?? '',
     description : json['description'] ?? '',
   );
-
 }

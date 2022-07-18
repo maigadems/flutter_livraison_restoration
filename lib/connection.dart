@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
 import 'package:flutter_livraison_restoration/affichageRestaurant.dart';
+import 'package:flutter_livraison_restoration/categorieRestaurant.dart';
 import 'package:flutter_livraison_restoration/inscription.dart';
+import 'package:flutter_livraison_restoration/navigation.dart';
 import 'package:flutter_livraison_restoration/suite_inscription.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'loading.dart';
@@ -50,23 +52,11 @@ class ConnectionState extends State<Connection>{
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 60,
-                backgroundImage:NetworkImage("https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=600"),
+                radius: 150,
+                backgroundImage:AssetImage('images/BalXawFood(1).png'),
+                backgroundColor: Colors.transparent,
               ),
-              Text(
-                  "BalxawFood",
-                  style: GoogleFonts.viga(
-                      textStyle: TextStyle(
-                        color: Color.fromRGBO(252, 14, 14, 1),
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      )
-                  )
-              ),
-              Text("livraison a domicile"),
-              Padding(padding: EdgeInsets.only(top:30), child: Text
-                ("Connexion", style: TextStyle(fontWeight: FontWeight.bold,
-                  fontSize: 25),),),
+
               Form(
                 key: formKey,
                 child: Container(
@@ -166,7 +156,7 @@ class ConnectionState extends State<Connection>{
                           setState(() => loading = true );
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (BuildContext ctx) {
-                                return Accueil();
+                                return CategorieRestaurant();
                               }));
                         }).onError((error, stackTrace) {
                           setState((){

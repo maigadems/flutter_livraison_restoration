@@ -1,6 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
+import 'package:flutter_livraison_restoration/couverture.dart';
+import 'package:flutter_livraison_restoration/test/catalog_screen.dart';
+import 'package:get/get.dart';
+//import 'package:flutter_livraison_restoration/test/screens/catalog_screen'.dart';
 
 Future<void> main() async {
 
@@ -15,13 +19,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.ode Zen
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner:  false,
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home:Accueil(),
+      home: Couverture(),
     );
   }
 }
