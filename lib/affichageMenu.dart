@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
 import 'package:flutter_livraison_restoration/categorieRestaurant.dart';
+import 'package:flutter_livraison_restoration/filtrageType.dart';
 import 'package:flutter_livraison_restoration/gestion_donnees'
     '/cart_controller2.dart';
 import 'package:flutter_livraison_restoration/gestion_donnees/plats.dart';
+import 'package:flutter_livraison_restoration/gestion_donnees/restaurant.dart';
 import 'package:flutter_livraison_restoration/page_panier.dart';
 import 'package:flutter_livraison_restoration/recuperationmenu.dart';
 import 'package:flutter_livraison_restoration/test/cart_controller.dart';
@@ -24,11 +26,11 @@ import 'details_plats.dart';
 
 class AffichageMenu extends StatefulWidget {
 
-  final String idRestaurant;
+   final Restaurant restaurant;
   final cartController = Get.put(CartController());
 
 
-  AffichageMenu({Key? key, required this.idRestaurant}):super(key:
+  AffichageMenu({Key? key, required this.restaurant}):super(key:
   key);
   @override
   AffichageMenuState createState() => AffichageMenuState();
@@ -39,15 +41,9 @@ class AffichageMenuState extends State <AffichageMenu> {
 
   //final cartController  = Get.put(CartController());
 
-  TextEditingController controllerRecherche = TextEditingController();
-
-  String achercher = "" ;
-
-
   @override
   void dispose() {
     // TODO: implement dispose
-    controllerRecherche.dispose();
     super.dispose();
   }
 
@@ -114,11 +110,18 @@ class AffichageMenuState extends State <AffichageMenu> {
                       color: Color.fromRGBO(217,217, 217, .2),
                       margin: EdgeInsets.only(right: 18, left: 18),
                       child:TextFormField(
-                        controller: controllerRecherche,
-                        onChanged:  (newString){
+                        onChanged:  (val){
                           setState((){
-                            achercher = newString;
+                            if (val.length > 0){
+                              print('Salut');
+                            }
                           });
+                        },
+                        validator:(value){
+                          if (value!.isEmpty){
+                            return 'Please enter a motif';
+                          }
+                          return null;
                         },
                         style: TextStyle(
                             fontSize: 18
@@ -142,21 +145,23 @@ class AffichageMenuState extends State <AffichageMenu> {
                             ),
                             splashColor: Colors.red[200],
                             onPressed: (){
-                              achercher = "";
                             },
                           ),
                         ),
                       ),
                     ),
                     Expanded(
-                        child:  Container(
-                          width: size.width,
-                          height: size.height,
-                          child:  GridView(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                            children: plats.map(buildPlats).toList(),
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 30),
+                          child:  Container(
+                            width: size.width,
+                            height: size.height ,
+                            child:  GridView(
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                              children: plats.map(buildPlats).toList(),
+                            ),
                           ),
-                        ),
+                        )
                     ),
                   ],
                   )
@@ -171,8 +176,7 @@ class AffichageMenuState extends State <AffichageMenu> {
         floatingActionButton: Container(
             height: 50,
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: Color.fromRGBO(236, 238, 241,
-                .83)),
+            decoration: BoxDecoration(color: Colors.transparent),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 // mainAxisSize: MainAxisSize.max,
@@ -207,16 +211,8 @@ class AffichageMenuState extends State <AffichageMenu> {
   // Les Methodes  pour nous faciliter la vie
   Widget buildPlats (Plats plat) {
 
-    var size = MediaQuery
-        .of(context)
-        .size;
-    Map<dynamic, dynamic> details = {};
-    details['nomPlat'] = plat.nomPlat;
-    details['photo'] = plat.photo;
-   details['description'] = plat.description;
-    details['prixPlat'] = plat.prixPlat;
-<<<<<<< HEAD
-
+    var size = MediaQuery.of(context).size;
+    final Plats plats;
     return Container(
       width: size.width / 2.2,
       height: size.height / 3.5,
@@ -241,7 +237,7 @@ class AffichageMenuState extends State <AffichageMenu> {
                         onTap: (){
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (BuildContext ctx){
-                            return  DetailsPlats(details: details);
+                            return  DetailsPlats(plats: plat);
                           })
                           );
                         },
@@ -257,101 +253,29 @@ class AffichageMenuState extends State <AffichageMenu> {
                                 height: size.height / 8,
                                 fit: BoxFit.cover,
                               ),
-=======
-    if(achercher == "") {
-
-
-      return Container(
-          width: size.width / 2.2,
-          height: size.height / 3.5,
-          margin: EdgeInsets.all(9),
-          padding: EdgeInsets.all(5),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              colors: [
-                Color.fromRGBO(232, 83, 83, 0.5),
-                Color.fromRGBO(196, 196, 196, 0.15)
-              ],
-              end: Alignment.topRight,
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Stack(
-              children: [
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      InkWell(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(
-                                  builder: (BuildContext ctx) {
-                                    return DetailsPlats(details: details);
-                                  })
-                              );
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.network(
-                                    plat.photo,
-                                    width: size.width / 3,
-                                    height: size.height / 8,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                Text(
-                                  plat.nomPlat,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 20,
-                                    color: Color.fromRGBO(252, 14, 14, 1),
-                                  ),
-                                ),
-                              ],
->>>>>>> 214bba0249800c63280cac5291ef70caf055f6df
                             ),
-                          )
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            plat.prixPlat.toString() + ' Frcs',
-                            style: TextStyle(
+                            Text(
+                              plat.nomPlat,
+                              style: GoogleFonts.poppins(
                                 fontSize: 20,
-                                color: Color.fromRGBO(148, 126, 9, 1),
-                                fontWeight: FontWeight.bold
-                            ),
-                          ),
-                          Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
                                 color: Color.fromRGBO(252, 14, 14, 1),
                               ),
-                              child: InkWell(
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                            builder: (BuildContext ctx) {
-                                              return Accueil();
-                                            })
-                                        );
-                                      },
-                                      child: Icon(
-                                        Icons.add, color: Colors.white,)
-                                  )
-                              )
-                          )
-                        ],
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        plat.prixPlat.toString() + ' Frcs',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromRGBO(148, 126, 9, 1),
+                            fontWeight: FontWeight.bold
+                        ),
                       ),
-<<<<<<< HEAD
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -374,121 +298,11 @@ class AffichageMenuState extends State <AffichageMenu> {
 
       )
     );
-=======
-                    ]
-                )
-              ]
-
-          )
-      );
-    }else {
-      if(plat.nomPlat.toUpperCase().contains(achercher.toUpperCase()))
-        {
-          return Container(
-              width: size.width / 2.2,
-              height: size.height / 3.5,
-              margin: EdgeInsets.all(9),
-              padding: EdgeInsets.all(5),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  colors: [
-                    Color.fromRGBO(232, 83, 83, 0.5),
-                    Color.fromRGBO(196, 196, 196, 0.15)
-                  ],
-                  end: Alignment.topRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Stack(
-                  children: [
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          InkWell(
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                      builder: (BuildContext ctx) {
-                                        return DetailsPlats(details: details);
-                                      })
-                                  );
-                                },
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.network(
-                                        plat.photo,
-                                        width: size.width / 3,
-                                        height: size.height / 8,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Text(
-                                      plat.nomPlat,
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 20,
-                                        color: Color.fromRGBO(252, 14, 14, 1),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                plat.prixPlat.toString() + ' Frcs',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromRGBO(148, 126, 9, 1),
-                                    fontWeight: FontWeight.bold
-                                ),
-                              ),
-                              Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color.fromRGBO(252, 14, 14, 1),
-                                  ),
-                                  child: InkWell(
-                                      child: GestureDetector(
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                                builder: (BuildContext ctx) {
-                                                  return Accueil();
-                                                })
-                                            );
-                                          },
-                                          child: Icon(
-                                            Icons.add, color: Colors.white,)
-                                      )
-                                  )
-                              )
-                            ],
-                          ),
-                        ]
-                    )
-                  ]
-
-              )
-          );
-        }else{
-        return Container(child: Center(child: Text(""),),);
-      }
-    }
->>>>>>> 214bba0249800c63280cac5291ef70caf055f6df
   }
 
 
   Stream<List<Plats>> readPlats() => FirebaseFirestore.instance.collection
-    ('Plats').where('idRest', arrayContains: widget.idRestaurant).snapshots()
+    ('Plats').where('idRest', arrayContains: widget.restaurant.idRest).snapshots()
       .map((snapshot) =>
       snapshot.docs.map((doc) => Plats.fromJson(doc.data())).toList());
 
@@ -503,7 +317,7 @@ class AffichageMenuState extends State <AffichageMenu> {
             onTap: () {
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (BuildContext ctx) {
-                    return Accueil();
+                    return FiltrageType(restaurant: widget.restaurant, typePlat : titre);
                   }
                   )
               );
@@ -573,15 +387,7 @@ class AffichageMenuState extends State <AffichageMenu> {
 
 
   Widget details( String titre, String nom) {
-
-    /* StreamBuilder<QuerySnapshot>(
-      stream: (nom != ""&& nom != null)
-          ? FirebaseFirestore.instance.collection('Restaurant').doc('OXHfnJQOUW5xj6d6zghx').collection('plat')
-          .where('SearchPlat', arrayContains: nom).snapshots()
-          :
-    ) */
     return TextFormField(
-      controller: controllerRecherche,
       onChanged: (val) {
         setState(() {
           nom = val;

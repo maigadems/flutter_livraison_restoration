@@ -57,7 +57,7 @@ class Accueil extends StatelessWidget{
                 onPressed:() {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (BuildContext ctx) {
-                        return Connection();
+                        return CategorieRestaurant();
                       }));
                 },
                 color: Colors.white,

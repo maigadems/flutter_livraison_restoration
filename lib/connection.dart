@@ -153,7 +153,21 @@ class ConnectionState extends State<Connection>{
                       if(formKey.currentState!.validate()){
                         FirebaseAuth.instance.signInWithEmailAndPassword(email: controllerEmail.text, password: controllerPassword.text)
                             .then((value) {
-                          setState(() => loading = true );
+                          setState((){
+                           /* message = "Authentification reussi";
+                            final snackbar = SnackBar(
+                              duration: Duration(milliseconds: 200),
+                              content: Text(message,
+                              style: TextStyle(color:Colors.white , fontSize: 15),
+                              textAlign: TextAlign.center,
+                            )
+                              ,
+                              backgroundColor:Colors.green[700],
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar
+                            (snackbar); */
+
+                          });
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (BuildContext ctx) {
                                 return CategorieRestaurant();

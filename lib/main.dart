@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
 import 'package:flutter_livraison_restoration/couverture.dart';
+import 'package:flutter_livraison_restoration/home_screen.dart';
 import 'package:flutter_livraison_restoration/test/catalog_screen.dart';
 import 'package:get/get.dart';
 //import 'package:flutter_livraison_restoration/test/screens/catalog_screen'.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: Couverture(),
+      home:Couverture(),
     );
   }
 }

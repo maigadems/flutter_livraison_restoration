@@ -34,7 +34,6 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
 
   TextEditingController controllerRecherche = TextEditingController();
   String? motif;
-  String achercher = "";
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +71,19 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                     margin: EdgeInsets.only(right: 18, left: 18),
                     child:TextFormField(
                       controller: controllerRecherche,
-                      onChanged:  (newString){
+                      onChanged:  (val){
                         setState((){
-                          achercher = newString;
+                          motif = val;
+                          if (val.length > 0){
+                            print('Salut');
+                          }
                         });
+                      },
+                      validator:(value){
+                        if (value!.isEmpty){
+                          return 'Please enter a motif';
+                        }
+                        return null;
                       },
                       style: TextStyle(
                           fontSize: 18
@@ -89,7 +97,7 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                             color: Colors.red[200],
                           ),
                           splashColor: Colors.red[200],
-                          onPressed: (){setState(){}},
+                          onPressed: (){},
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(Icons.close_outlined,
@@ -105,13 +113,16 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
                     ),
                   ),
                   Expanded(
-                    child:  Container(
-                      width: size.width,
-                      height: size.height,
-                      child:  ListView(
-                        children:Restaurant.map(buildRestaurant).toList()
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: 30),
+                      child:  Container(
+                        width: size.width,
+                        height: size.height,
+                        child:  ListView(
+                            children:Restaurant.map(buildRestaurant).toList()
+                        ),
                       ),
-                    ),
+                    )
                   )
                 ],
               )
@@ -126,8 +137,7 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
         floatingActionButton: Container(
             height: 50,
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: Color.fromRGBO(236, 238, 241,
-                .83)),
+           decoration: BoxDecoration(color: Colors.transparent),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 // mainAxisSize: MainAxisSize.max,
@@ -162,188 +172,97 @@ class AffichageRestaurantState extends State <AffichageRestaurant> {
   Widget buildRestaurant(Restaurant restaurant) {
     var size = MediaQuery.of(context).size;
 
-    if(achercher=='') {
-      return Container(
-          width: size.width,
-          height: size.width / 4.5,
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(9),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              colors: [
-                Color.fromRGBO(232, 83, 83, 0.5),
-                Color.fromRGBO(196, 196, 196, 0.15)
-              ],
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(20),
+    return Container(
+      width: size.width,
+        height: size.width /4.5,
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(9),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin:Alignment.topCenter,
+            colors: [Color.fromRGBO(232, 83, 83, 0.5),Color.fromRGBO(196, 196, 196, 0.15) ],
+            end: Alignment.bottomCenter,
           ),
-          child: Stack(
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        restaurant.photoRestaurant,
-                        width: size.width / 4,
-                        height: size.height / 5,
-                        fit: BoxFit.cover,
-                      ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Stack(
+            children:[
+              Row(
+                mainAxisSize:  MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      restaurant.photoRestaurant,
+                      width: size.width / 4,
+                      height: size.height / 5,
+                      fit: BoxFit.cover,
                     ),
-                    Padding(padding: EdgeInsets.only(left: 15),
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text.rich(
-                                  TextSpan(
-                                      text: '${restaurant.nomRestaurant}\n\n',
+                  ),
+                  Padding(padding: EdgeInsets.only(left: 15),
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      child: Column(
+                          mainAxisSize:  MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text.rich(
+                                TextSpan(
+                                  text : '${restaurant.nomRestaurant}\n\n',
+                                    style: GoogleFonts.rubik(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(252, 14, 14, 1),
+                                    ),
+                                  children:[
+                                    TextSpan(
+                                      text: '${restaurant.distance}' +
+                                          " min",
                                       style: GoogleFonts.rubik(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(252, 14, 14, 1),
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.normal
                                       ),
-                                      children: [
-                                        TextSpan(
-                                          text: restaurant.distance.toString() +
-                                              " min",
-                                          style: GoogleFonts.rubik(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal
-                                          ),
 
-                                        )
-                                      ]
-                                  )
-                              )
-                            ]
-                        ),
+                                    )
+                                  ]
+                                )
+                            )
+                          ]
                       ),
                     ),
-                    Spacer(),
-                    IconButton(onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext ctx) {
-                            String restPlat = restaurant.idRest;
-                            return AffichageMenu(idRestaurant: restPlat);
-                          }
-                          )
-                      );
-                    },
-                      icon: Icon(Icons.menu_sharp,
-                        color: Colors.black,
-                        size: 40,
-                      ),
+                  ),
+                  Spacer(),
+                  IconButton(onPressed: (){
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (BuildContext ctx) {
+                          String restPlat = restaurant.idRest;
+                          return AffichageMenu(restaurant: restaurant);
+                        }
+                        )
+                    );
+                  },
+                    icon: Icon(Icons.menu_sharp,
+                      color: Colors.black,
+                      size: 40,
                     ),
-                  ],
-                ),
-              ]
-          )
-      );
-    }else {if(restaurant.nomRestaurant.toUpperCase().contains(RegExp(achercher.toUpperCase()),0)) {
-      return Container(
-          width: size.width,
-          height: size.width / 4.5,
-          padding: EdgeInsets.all(10),
-          margin: EdgeInsets.all(9),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              colors: [
-                Color.fromRGBO(232, 83, 83, 0.5),
-                Color.fromRGBO(196, 196, 196, 0.15)
-              ],
-              end: Alignment.bottomCenter,
-            ),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Stack(
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        restaurant.photoRestaurant,
-                        width: size.width / 4,
-                        height: size.height / 5,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Padding(padding: EdgeInsets.only(left: 15),
-                      child: Container(
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text.rich(
-                                  TextSpan(
-                                      text: '${restaurant.nomRestaurant}\n\n',
-                                      style: GoogleFonts.rubik(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Color.fromRGBO(252, 14, 14, 1),
-                                      ),
-                                      children: [
-                                        TextSpan(
-                                          text: restaurant.distance.toString() +
-                                              " min",
-                                          style: GoogleFonts.rubik(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.normal
-                                          ),
-
-                                        )
-                                      ]
-                                  )
-                              )
-                            ]
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                    IconButton(onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (BuildContext ctx) {
-                            String restPlat = restaurant.idRest;
-                            return AffichageMenu(idRestaurant: restPlat);
-                          }
-                          )
-                      );
-                    },
-                      icon: Icon(Icons.menu_sharp,
-                        color: Colors.black,
-                        size: 40,
-                      ),
-                    ),
-                  ],
-                ),
-              ]
-          )
-      );
-    }else{return Container(child: Center(child: Text(""),),);}
-    }
+                  ),
+                ],
+              ),
+            ]
+        )
+    );
   }
 
 Stream<List<Restaurant>> readRestaurant() {
-    
     return
       FirebaseFirestore.instance
-        .collection('Restaurant').where('idCat',arrayContains: widget.idCategorie)
-          .snapshots()  
+        .collection('Restaurant')
+          .where
+        ('idCat',arrayContains: widget.idCategorie)
+          .snapshots()
           .map(
                 (snapshot) =>
                   snapshot.docs.map((doc) => Restaurant.fromJson(doc.data())).toList());

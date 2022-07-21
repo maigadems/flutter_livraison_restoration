@@ -4,7 +4,7 @@ class Restaurant {
   String Contact;
   String adresse;
   String photoRestaurant;
-  int? distance;
+  int  distance;
 
   late final String _id;
   String get id => _id;
@@ -18,7 +18,7 @@ class Restaurant {
     required this.Contact,
     required this.adresse,
     required this.photoRestaurant,
-    this.distance,
+    required this.distance,
   });
 
   Map<String, dynamic> toJson() =>
@@ -27,7 +27,8 @@ class Restaurant {
         'Contact': Contact,
         'idRest': idRest,
         'adresse': adresse,
-        'photoRestaurant': photoRestaurant
+        'photoRestaurant': photoRestaurant,
+        'distance' : distance
       };
 
   static Restaurant fromJson(Map<String, dynamic> json) =>
@@ -36,6 +37,7 @@ class Restaurant {
           nomRestaurant: json['nomRestaurant'].toString(),
           Contact: json['Contact'].toString(),
           adresse: json['adresse'].toString(),
-          photoRestaurant: json['photoRestaurant'].toString()
+          photoRestaurant: json['photoRestaurant'].toString(),
+          distance: json['distance']
       );
 }

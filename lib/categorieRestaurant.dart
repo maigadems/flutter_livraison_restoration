@@ -122,14 +122,17 @@ class CategorieRestaurantState extends State <CategorieRestaurant> {
                         ),
                       ),
                       Expanded(
-                        child:  Container(
-                          width: size.width,
-                          height: size.height,
-                          child:  GridView(
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                            children: catRest.map(buildCatRest).toList(),
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 40),
+                          child:  Container(
+                            width: size.width,
+                            height: size.height,
+                            child:  GridView(
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                              children: catRest.map(buildCatRest).toList(),
+                            ),
                           ),
-                        ),
+                        )
                       ),
                     ],
                   ),

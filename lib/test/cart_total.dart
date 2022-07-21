@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_livraison_restoration/accueil.dart';
+import 'package:flutter_livraison_restoration/simple_map_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'cart_controller.dart';
+import 'cart_screen.dart';
 
 class CartTotal extends StatefulWidget {
 
@@ -79,8 +82,7 @@ class _CartTotalState extends State<CartTotal> {
                     Padding(
                         padding:EdgeInsets.only(top: 15 , bottom: 20),
                       child:   FlatButton(
-                        onPressed:() {
-                        },
+                        onPressed: () => Get.to(() => SimpleMapScreen()),
                         color: Color.fromRGBO(232, 83, 83, 1),
                         child:Padding(
                           padding: EdgeInsets.only(top: 18,bottom: 18),

@@ -1,12 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_livraison_restoration/accueil.dart';
+import 'package:flutter_livraison_restoration/test/cart_controller.dart';
+import 'package:flutter_livraison_restoration/test/cart_screen.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'categorieRestaurant.dart';
+import 'connection.dart';
+import 'gestion_donnees/plats.dart';
 
 class DetailsPlats extends StatefulWidget {
 
   Map<dynamic, dynamic> details = {};
+   final Plats plats;
+  final cartController = Get.put(CartController());
 
-   DetailsPlats({Key? key, required this.details}) : super(key: key);
+
+  DetailsPlats({Key? key, required this.plats}) : super(key: key);
 
   @override
   State<DetailsPlats> createState() => _DetailsPlatsState();
@@ -22,7 +34,15 @@ class _DetailsPlatsState extends State<DetailsPlats> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Color.fromRGBO(232, 83, 83, 1),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin:Alignment.topLeft,
+              colors: [Color.fromRGBO(255, 6, 6, 1),Colors.redAccent, Color.fromRGBO
+                (232,
+                  83, 83, 1)],
+              end: Alignment.topRight,
+            ),
+          ),
           width: size.width,
           height: size.height,
           child: Column(
@@ -44,7 +64,7 @@ class _DetailsPlatsState extends State<DetailsPlats> {
                     child: Center(
                       child: CircleAvatar(
                         radius: 120,
-                        backgroundImage: NetworkImage(widget.details['photo']),
+                        backgroundImage: NetworkImage(widget.plats.photo),
                       ),
                     ),
                   ),
@@ -71,11 +91,11 @@ class _DetailsPlatsState extends State<DetailsPlats> {
                             padding: EdgeInsets.only(top: 15, bottom: 15, right:
                             40, left: 40),
                             decoration: BoxDecoration(
-                                color: Color.fromRGBO(232, 83, 83, 1),
+                                color: Color.fromRGBO(252, 14, 14, 1),
                                 borderRadius: BorderRadius.circular(30)
                             ),
                             child: Text(
-                              widget.details['prixPlat'].toString() + ' Fr',
+                              widget.plats.prixPlat.toString() + ' Fr',
                               style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 22,
@@ -91,10 +111,10 @@ class _DetailsPlatsState extends State<DetailsPlats> {
                         margin: EdgeInsets.only(left: 20, top: 20),
                         alignment: Alignment.topLeft,
                         child:Text(
-                          widget.details['nomPlat'],
+                          widget.plats.nomPlat,
                           style: GoogleFonts.viga(
                               fontSize: 27,
-                              color: Color.fromRGBO(232, 83, 83, 1),
+                              color: Color.fromRGBO(252, 14, 14, 1),
                               fontWeight: FontWeight.bold
                           ),
                         ),
@@ -103,7 +123,7 @@ class _DetailsPlatsState extends State<DetailsPlats> {
                         margin: EdgeInsets.only(left: 20),
                         alignment: Alignment.topLeft,
                         child: Text(
-                            '${widget.details['description']}',
+                            '${widget.plats.description}',
                           style: GoogleFonts.poppins(
                               fontSize: 18,
                               color: Color.fromRGBO(111, 111, 112, 1),
@@ -143,10 +163,7 @@ class _DetailsPlatsState extends State<DetailsPlats> {
                           children: [
                             FlatButton(
                               onPressed:() {
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (BuildContext ctx) {
-                                      return Accueil();
-                                    }));
+                                widget.cartController.addProduct(widget.plats);
                               },
                               color: Color.fromRGBO(232, 83, 83, 1),
                               child:Padding(
@@ -176,6 +193,40 @@ class _DetailsPlatsState extends State<DetailsPlats> {
           ),
         ),
       ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Container(
+            height: 50,
+            width: size.width,
+           // padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Colors.transparent),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // mainAxisSize: MainAxisSize.max,
+                children: [
+                  IconButton(
+                    onPressed: () => Get.to(() => CategorieRestaurant()),
+                    icon:Icon(Icons.home_filled,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () => Get.to(() => CartScreen()),
+                    icon:Icon(Icons.shopping_cart_outlined,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: (){
+                      FirebaseAuth.instance.signOut().then((value) =>
+                          Get.to(() => Connection())
+                      );
+                    },
+                    icon:Icon(Icons.output_rounded,
+
+                    ),
+                  ),
+                ]
+            )
+        )
     );
   }
   Container categoriePlat(double width, double height,String
